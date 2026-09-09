@@ -7,7 +7,7 @@ const winston = require('winston');
 const { body } = require('express-validator');
 require('dotenv').config();
 
-const connectDB = require('./config/database');
+const connectDB = require('./config/databaseLocal');
 const authRoutes = require('./routes/auth');
 const publicOrganizationRoutes = require('./routes/publicOrganizationRoutes');
 const organizationRoutes = require('./routes/organizationRoutes');
