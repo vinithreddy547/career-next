@@ -1,15 +1,22 @@
 const mongoose = require('mongoose');
+const dns = require('dns');
+const seedDefaultData = require('./seedData');
 require('dotenv').config();
+
+// Ensure DNS resolution works for MongoDB Atlas SRV records
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {}
 
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI || "mongodb+srv://naidubugata88:Ke33d5p7i4dUwP57@cluster0.gmfkqag.mongodb.net/careernest?retryWrites=true&w=majority&appName=Cluster0";
+    const mongoURI = process.env.MONGODB_URI;
     
-    // Mongoose 6.x+ doesn't need these deprecated options
     await mongoose.connect(mongoURI);
     
     console.log('✅ MongoDB connected successfully');
     console.log(`📦 Database: ${mongoose.connection.name}`);
+    await seedDefaultData();
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
     process.exit(1);
